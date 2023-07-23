@@ -1,10 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import FlashcardList from './FlashcardList';
 import './app.css';
 
 
 function App() {
-  const [flashcards, setFlashcards] = useState(SAMPLE_FLASHCARDS)
+  const [flashcards, setFlashcards] = useState(SAMPLE_FLASHCARDS);
+
+  useEffect(() => {
+    fetch('https://opentdb.com/api.php?amount=10')
+  .then(response => {
+    if (!response.ok) {
+      throw new Error('Network response was not ok');
+    }
+    return response.json();
+  })
+  .then(data => {
+    // Handle successful response
+    console.log(data);
+  })
+  .catch(error => {
+    // Handle error
+    console.error('Fetch error:', error);
+  });
+
+  })
   return (
     <FlashcardList flashcards={flashcards} />
   );
